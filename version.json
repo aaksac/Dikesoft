@@ -1,0 +1,7 @@
+{
+  "version": "2026.08.21-report-multi-month-v1",
+  "build": "2026.08.21-report-multi-month-v1",
+  "updatedAt": "2026-08-21T14:25:00+03:00",
+  "forceUpdate": true,
+  "notes": "Raporlar ekranında tahsilat ayları checkbox yapısına çevrildi. Aynı yıl içinde birden fazla ay veya tüm aylar birlikte raporlanabilir; mevcut kanal/dağıtıcı ve bayi payı kontrolleri korunur."
+}

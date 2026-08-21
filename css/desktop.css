@@ -1,0 +1,61 @@
+@media (min-width:1200px){
+  .main{max-width:1480px}
+  .panel{padding:22px}
+}
+
+/* v2026.06.02 Masaüstü/Mac scroll düzeltmesi
+   Kapsam: yalnızca mouse/trackpad kullanılan geniş masaüstü tarayıcılar.
+   Mobil, iPhone, Android ve tablet dokunmatik yerleşimlerine dokunmaz. */
+@media (min-width:1200px) and (hover:hover) and (pointer:fine){
+  html{
+    height:auto !important;
+    min-height:100% !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+  }
+
+  body.app-page:not(.is-ios):not(.is-android),
+  body.login-page:not(.is-ios):not(.is-android){
+    position:static !important;
+    inset:auto !important;
+    height:auto !important;
+    min-height:100vh !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    overscroll-behavior-y:auto !important;
+    touch-action:auto !important;
+  }
+
+  body.app-page:not(.is-ios):not(.is-android) #appShell.app-shell{
+    height:auto !important;
+    min-height:100vh !important;
+    max-height:none !important;
+    overflow:visible !important;
+  }
+
+  body.app-page:not(.is-ios):not(.is-android) .main{
+    height:auto !important;
+    min-height:100vh !important;
+    max-height:none !important;
+    overflow-y:visible !important;
+    overflow-x:hidden !important;
+    -webkit-overflow-scrolling:auto !important;
+    overscroll-behavior-y:auto !important;
+    touch-action:auto !important;
+  }
+
+  body.login-page:not(.is-ios):not(.is-android) .dikesoft-login{
+    height:auto !important;
+    min-height:100vh !important;
+    max-height:none !important;
+    overflow:visible !important;
+  }
+
+  body.app-page:not(.is-ios):not(.is-android)::-webkit-scrollbar,
+  body.login-page:not(.is-ios):not(.is-android)::-webkit-scrollbar{
+    width:12px !important;
+    height:12px !important;
+  }
+}

@@ -1,0 +1,1340 @@
+<!doctype html>
+<html lang="tr" class="dikesoft-app-first-paint">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#f3faee" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Dikesoft" />
+  <title>Dikesoft | Panel</title>
+
+  <style id="dikesoft-app-first-paint-critical">
+    html.dikesoft-app-first-paint,
+    html.dikesoft-app-first-paint body {
+      margin:0 !important;
+      min-height:100% !important;
+      background:#f7fcf2 !important;
+      background-image:linear-gradient(135deg,#fbfff7 0%,#f3faee 52%,#ecffd8 100%) !important;
+      background-color:#f7fcf2 !important;
+      color:#172416 !important;
+    }
+  </style>
+
+  <script id="dikesoft-app-splash-early-lock">
+    (function () {
+      var MOBILE_QUERY = "(max-width: 768px), (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (hover: none) and (pointer: coarse)";
+      var lockedSplashHeight = 0;
+
+      function isMobileLike() {
+        try {
+          if (window.matchMedia && window.matchMedia(MOBILE_QUERY).matches) return true;
+        } catch (error) {}
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent || "");
+      }
+
+      function shouldShowAppSplash() {
+        // Rota uygulamasındaki gibi app.html ikinci splash açmaz.
+        // Eski sürümden kalan session bayrağı varsa bile görsel kesinti üretmemesi için devre dışı.
+        try {
+          sessionStorage.removeItem("dikesoftStartupSplash");
+          sessionStorage.removeItem("dikesoftStartupSplashAt");
+        } catch (error) {}
+        return false;
+      }
+
+      function syncSplashHeight() {
+        try {
+          var root = document.documentElement;
+          var viewport = window.visualViewport;
+          var width = Math.ceil(Math.max(window.innerWidth || 0, root.clientWidth || 0, viewport && viewport.width ? viewport.width : 0));
+          var height = Math.ceil(Math.max(window.innerHeight || 0, root.clientHeight || 0, viewport && viewport.height ? viewport.height : 0));
+          var isLandscape = width > height && width >= 720;
+          if (width > 0) root.style.setProperty("--dikesoft-splash-width", width + "px");
+          root.classList.toggle("dikesoft-splash-landscape", isLandscape);
+          root.classList.toggle("dikesoft-splash-portrait", !isLandscape);
+          if (isLandscape) {
+            lockedSplashHeight = height || lockedSplashHeight;
+          } else {
+            var screenHeight = window.screen && window.screen.height ? window.screen.height : 0;
+            var nextHeight = Math.ceil(Math.max(height || 0, screenHeight || 0));
+            if (nextHeight > lockedSplashHeight) lockedSplashHeight = nextHeight;
+          }
+          if (lockedSplashHeight > 0) root.style.setProperty("--dikesoft-splash-height", lockedSplashHeight + "px");
+        } catch (error) {}
+      }
+
+      try {
+        var active = isMobileLike() && shouldShowAppSplash();
+        if (active) {
+          syncSplashHeight();
+          document.documentElement.classList.add("dikesoft-splash-active", "dikesoft-splash-image", "dikesoft-app-startup-active");
+          window.addEventListener("resize", syncSplashHeight, { passive: true });
+          window.addEventListener("orientationchange", function () {
+            lockedSplashHeight = 0;
+            window.setTimeout(syncSplashHeight, 80);
+          }, { passive: true });
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener("resize", syncSplashHeight, { passive: true });
+          }
+        }
+      } catch (error) {}
+    })();
+  </script>
+
+
+
+  <script id="iphone-app-class-firstpaint">
+    (function () {
+      var ua = navigator.userAgent || "";
+      var isIphone = /iPhone|iPod/i.test(ua);
+      var isStandalone = window.navigator.standalone === true ||
+        (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+      if (isIphone) {
+        document.documentElement.classList.add("is-iphone-app");
+      }
+      if (isIphone && isStandalone) {
+        document.documentElement.classList.add("is-iphone-pwa");
+      }
+      document.documentElement.style.setProperty("--app-height", "100dvh");
+    })();
+  </script>
+
+  <style id="iphone-app-native-critical">
+    @supports (-webkit-touch-callout:none) {
+      @media (max-width:767px) {
+        html.is-iphone-app,
+        html.is-iphone-app body {
+          width:100% !important;
+          height:100% !important;
+          min-height:100% !important;
+          margin:0 !important;
+          padding:0 !important;
+          overflow:hidden !important;
+          overscroll-behavior:none !important;
+          -webkit-text-size-adjust:100% !important;
+          touch-action:manipulation !important;
+          background:linear-gradient(135deg,#fbfff7,#f3faee 52%,#ecffd8) !important;
+        }
+
+        html.is-iphone-app body {
+          position:fixed !important;
+          inset:0 !important;
+          max-width:100vw !important;
+          max-height:100dvh !important;
+        }
+
+        html.is-iphone-app #appShell.app-shell {
+          width:100% !important;
+          height:100dvh !important;
+          min-height:0 !important;
+          max-height:100dvh !important;
+          display:block !important;
+          overflow:hidden !important;
+          background:linear-gradient(135deg,#fbfff7,#f3faee 52%,#ecffd8) !important;
+        }
+
+        html.is-iphone-app .sidebar {
+          display:none !important;
+        }
+
+        html.is-iphone-app .main {
+          width:100% !important;
+          height:100dvh !important;
+          min-height:0 !important;
+          max-height:100dvh !important;
+          overflow-x:hidden !important;
+          overflow-y:auto !important;
+          -webkit-overflow-scrolling:touch !important;
+          overscroll-behavior-y:contain !important;
+          padding:calc(18px + env(safe-area-inset-top,0px)) 14px calc(22px + env(safe-area-inset-bottom,0px)) !important;
+          box-sizing:border-box !important;
+          background:transparent !important;
+        }
+
+        html.is-iphone-app .topbar {
+          display:flex !important;
+          justify-content:space-between !important;
+          gap:10px !important;
+          padding:14px !important;
+          margin:0 0 14px 0 !important;
+          border-radius:22px !important;
+          overflow:visible !important;
+          box-sizing:border-box !important;
+          align-items:center !important;
+        }
+
+        html.is-iphone-app .topbar-title {
+          min-width:0 !important;
+          flex:1 1 auto !important;
+        }
+
+        html.is-iphone-app .topbar-title h1,
+        html.is-iphone-app #pageTitle {
+          margin:0 !important;
+          padding:0 !important;
+          line-height:1.18 !important;
+          white-space:nowrap !important;
+          overflow:hidden !important;
+          text-overflow:ellipsis !important;
+          font-size:clamp(24px,6.5vw,30px) !important;
+        }
+
+        html.is-iphone-app .topbar-title p,
+        html.is-iphone-app #pageSubtitle {
+          margin:4px 0 0 !important;
+          line-height:1.3 !important;
+          white-space:nowrap !important;
+          overflow:hidden !important;
+          text-overflow:ellipsis !important;
+        }
+
+        html.is-iphone-app .topbar-actions {
+          width:auto !important;
+          margin-top:0 !important;
+          margin-left:auto !important;
+          flex:0 0 auto !important;
+          display:flex !important;
+          align-items:center !important;
+          gap:8px !important;
+          overflow:visible !important;
+        }
+
+        html.is-iphone-app #mobileTabbar.mobile-tabbar {
+          display:grid !important;
+          grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+          position:fixed !important;
+          left:12px !important;
+          right:12px !important;
+          bottom:max(8px, env(safe-area-inset-bottom,0px)) !important;
+          width:auto !important;
+          max-width:none !important;
+          height:58px !important;
+          min-height:58px !important;
+          margin:0 !important;
+          padding:6px !important;
+          border:1px solid rgba(167,255,63,.18) !important;
+          border-radius:22px !important;
+          background:rgba(13,31,22,.97) !important;
+          box-shadow:0 -6px 22px rgba(0,0,0,.18) !important;
+          box-sizing:border-box !important;
+          align-items:center !important;
+          justify-items:stretch !important;
+          gap:4px !important;
+          transform:none !important;
+          -webkit-transform:none !important;
+          backdrop-filter:blur(16px) !important;
+          -webkit-backdrop-filter:blur(16px) !important;
+          z-index:2147482500 !important;
+        }
+
+        html.is-iphone-app #mobileTabbar.mobile-tabbar button {
+          width:100% !important;
+          height:46px !important;
+          min-height:46px !important;
+          max-height:46px !important;
+          margin:0 !important;
+          padding:0 !important;
+          border:0 !important;
+          border-radius:16px !important;
+          display:flex !important;
+          align-items:center !important;
+          justify-content:center !important;
+          background:transparent !important;
+          color:#dfffba !important;
+          font-size:0 !important;
+          line-height:1 !important;
+          transform:none !important;
+          -webkit-transform:none !important;
+          touch-action:manipulation !important;
+          -webkit-tap-highlight-color:transparent !important;
+        }
+
+        html.is-iphone-app #mobileTabbar.mobile-tabbar button.is-active,
+        html.is-iphone-app #mobileTabbar.mobile-tabbar button:active {
+          background:rgba(167,255,63,.16) !important;
+          box-shadow:inset 0 0 0 1px rgba(167,255,63,.26) !important;
+          color:#a7ff3f !important;
+        }
+
+        html.is-iphone-app #mobileTabbar .mobile-nav-icon {
+          width:24px !important;
+          height:24px !important;
+          display:flex !important;
+          align-items:center !important;
+          justify-content:center !important;
+          font-size:23px !important;
+          line-height:1 !important;
+          transform:none !important;
+        }
+
+        html.is-iphone-app #mobileMoreMenu.mobile-more-menu {
+          position:fixed !important;
+          top:calc(env(safe-area-inset-top,0px) + 72px) !important;
+          right:12px !important;
+          left:auto !important;
+          bottom:auto !important;
+          min-width:220px !important;
+          max-width:calc(100vw - 24px) !important;
+          z-index:2147483000 !important;
+          overflow:visible !important;
+          transform:none !important;
+          pointer-events:auto !important;
+        }
+
+        html.is-iphone-app #mobileMoreMenu.mobile-more-menu.hidden {
+          display:none !important;
+        }
+
+        html.is-iphone-app #mobileMoreMenu.mobile-more-menu .mobile-more-item {
+          display:block !important;
+          visibility:visible !important;
+          opacity:1 !important;
+          min-height:44px !important;
+          padding:12px 14px !important;
+          font-size:14px !important;
+          line-height:1.25 !important;
+          color:#111827 !important;
+          background:transparent !important;
+          text-indent:0 !important;
+        }
+
+        html.is-iphone-app #mobileMoreMenu.mobile-more-menu .mobile-more-item.nav-btn::after {
+          content:none !important;
+          display:none !important;
+        }
+
+        html.is-iphone-app #mobileMoreMenu.mobile-more-menu .mobile-more-item.nav-btn::first-letter {
+          font-size:inherit !important;
+        }
+
+        html.is-iphone-app #mobileMoreBtn {
+          position:relative !important;
+          z-index:2147483001 !important;
+        }
+
+        html.is-iphone-app,
+        html.is-iphone-app body {
+          background:radial-gradient(circle at top left,rgba(166,240,75,.22),transparent 30%),linear-gradient(135deg,#fbfff7,#f3faee 52%,#ecffd8) !important;
+        }
+
+        html.is-iphone-app::after,
+        html.is-iphone-app body::after { display:none !important; content:none !important; }
+
+        html.is-iphone-app #mobileTabbar.mobile-tabbar {
+          left:12px !important;
+          right:12px !important;
+          bottom:max(8px, env(safe-area-inset-bottom,0px)) !important;
+          width:auto !important;
+          height:58px !important;
+          min-height:58px !important;
+          padding:6px !important;
+          border-radius:22px !important;
+          border:1px solid rgba(167,255,63,.18) !important;
+          background:rgba(13,31,22,.94) !important;
+        }
+
+        html.is-iphone-app #mobileTabbar.mobile-tabbar button {
+          height:46px !important;
+          min-height:46px !important;
+          max-height:46px !important;
+          border-radius:16px !important;
+        }
+
+        html.is-iphone-app #mobileTabbar .mobile-nav-icon {
+          width:24px !important;
+          height:24px !important;
+          font-size:23px !important;
+        }
+
+        html.is-iphone-app .main {
+          padding-bottom:calc(22px + env(safe-area-inset-bottom,0px)) !important;
+        }
+
+        html.is-iphone-app #mobileTabbar,
+        html.is-iphone-app .mobile-tabbar {
+          display:none !important;
+          visibility:hidden !important;
+          pointer-events:none !important;
+        }
+
+        html.is-iphone-app body::after,
+        html.is-iphone-app::after {
+          display:none !important;
+          content:none !important;
+        }
+
+        html.is-iphone-app input,
+        html.is-iphone-app textarea,
+        html.is-iphone-app select { font-size:16px !important; }
+      }
+    }
+  </style>
+
+
+
+
+  <style id="mobile-more-menu-fit-critical">
+    @media (max-width:767px) {
+      #mobileMoreMenu.mobile-more-menu:not(.hidden),
+      html.is-iphone-app #mobileMoreMenu.mobile-more-menu:not(.hidden) {
+        display:inline-flex !important;
+        flex-direction:column !important;
+        align-items:stretch !important;
+        width:auto !important;
+        width:-webkit-max-content !important;
+        width:max-content !important;
+        min-width:148px !important;
+        max-width:calc(100vw - 24px) !important;
+      }
+
+      #mobileMoreMenu.mobile-more-menu .mobile-more-item,
+      html.is-iphone-app #mobileMoreMenu.mobile-more-menu .mobile-more-item {
+        width:auto !important;
+        min-width:100% !important;
+        box-sizing:border-box !important;
+        white-space:nowrap !important;
+        padding:10px 12px !important;
+      }
+    }
+  </style>
+
+  <style id="dikesoft-app-startup-splash-critical">
+    :root {
+      --dikesoft-splash-bg:#f7fcf2;
+      --dikesoft-splash-edge-bg:#f7fcf2;
+      --dikesoft-splash-height:100vh;
+      --dikesoft-splash-image:url("assets/splash/splash-portrait.png?v=2026.05.18.1114-tablet-orientation-layout");
+    }
+
+    @media (orientation:landscape) {
+      :root { --dikesoft-splash-image:url("assets/splash/splash-landscape.png?v=2026.05.18.1114-tablet-orientation-layout"); }
+    }
+
+    .app-startup-splash {
+      display:none;
+    }
+
+    html.dikesoft-app-startup-active::before,
+    html.dikesoft-app-startup-active::after,
+    html.dikesoft-app-startup-active body::before,
+    html.dikesoft-app-startup-active body::after,
+    body.dikesoft-app-startup-active::before,
+    body.dikesoft-app-startup-active::after {
+      display:none !important;
+      content:none !important;
+    }
+
+    @media (max-width:768px), (hover:none) and (pointer:coarse) {
+      html.dikesoft-app-startup-active,
+      html.dikesoft-app-startup-active body,
+      body.dikesoft-app-startup-active {
+        width:100% !important;
+        height:var(--dikesoft-splash-height,100vh) !important;
+        min-height:100vh !important;
+        min-height:100lvh !important;
+        margin:0 !important;
+        padding:0 !important;
+        overflow:hidden !important;
+        background:var(--dikesoft-splash-edge-bg,var(--dikesoft-splash-bg)) !important;
+        background-color:var(--dikesoft-splash-edge-bg,var(--dikesoft-splash-bg)) !important;
+        overscroll-behavior:none !important;
+        -webkit-overflow-scrolling:auto !important;
+      }
+
+      html.dikesoft-app-startup-active #appShell {
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+      }
+
+      html.dikesoft-app-startup-active .app-startup-splash,
+      body.dikesoft-app-startup-active .app-startup-splash,
+      .app-startup-splash.is-visible,
+      .app-startup-splash.is-hiding {
+        position:fixed !important;
+        left:0 !important;
+        top:0 !important;
+        right:0 !important;
+        bottom:auto !important;
+        z-index:2147483646 !important;
+        width:100vw !important;
+        height:var(--dikesoft-splash-height,100vh) !important;
+        min-height:100vh !important;
+        min-height:100lvh !important;
+        max-height:none !important;
+        margin:0 !important;
+        padding:0 !important;
+        display:grid !important;
+        place-items:center !important;
+        overflow:hidden !important;
+        background-color:var(--dikesoft-splash-edge-bg,var(--dikesoft-splash-bg)) !important;
+        background-image:var(--dikesoft-splash-image) !important;
+        background-size:cover !important;
+        background-position:center center !important;
+        background-repeat:no-repeat !important;
+        opacity:1 !important;
+        visibility:visible !important;
+        pointer-events:auto !important;
+        transform:translateZ(0) !important;
+        -webkit-transform:translateZ(0) !important;
+        backface-visibility:hidden !important;
+        -webkit-backface-visibility:hidden !important;
+        transition:opacity 320ms cubic-bezier(.22,1,.36,1), visibility 320ms cubic-bezier(.22,1,.36,1) !important;
+      }
+
+      html.dikesoft-splash-leaving #appShell,
+      body.dikesoft-splash-leaving #appShell {
+        opacity:1 !important;
+        visibility:visible !important;
+        pointer-events:auto !important;
+      }
+
+      html.dikesoft-splash-leaving .app-startup-splash,
+      body.dikesoft-splash-leaving .app-startup-splash,
+      .app-startup-splash.is-hiding {
+        opacity:0 !important;
+        visibility:visible !important;
+        pointer-events:none !important;
+      }
+
+      .app-startup-splash .dikesoft-splash-picture {
+        position:absolute !important;
+        inset:0 !important;
+        z-index:0 !important;
+        display:block !important;
+        width:100% !important;
+        height:100% !important;
+        min-width:100% !important;
+        min-height:100% !important;
+        overflow:hidden !important;
+        margin:0 !important;
+        padding:0 !important;
+      }
+
+      .app-startup-splash .dikesoft-splash-image-element {
+        position:absolute !important;
+        inset:0 !important;
+        z-index:0 !important;
+        width:100% !important;
+        height:100% !important;
+        min-width:100% !important;
+        min-height:100% !important;
+        display:block !important;
+        object-fit:cover !important;
+        object-position:center center !important;
+        opacity:.01 !important;
+        border:0 !important;
+        margin:0 !important;
+        padding:0 !important;
+        user-select:none !important;
+        -webkit-user-drag:none !important;
+        transform:translateZ(0) scale(1.012) !important;
+        -webkit-transform:translateZ(0) scale(1.012) !important;
+        transition:opacity 520ms cubic-bezier(.22,1,.36,1), transform 900ms cubic-bezier(.22,1,.36,1) !important;
+        will-change:opacity, transform !important;
+      }
+
+      html.dikesoft-splash-ready .app-startup-splash .dikesoft-splash-image-element,
+      body.dikesoft-splash-ready .app-startup-splash .dikesoft-splash-image-element,
+      .app-startup-splash .dikesoft-splash-image-element.is-loaded {
+        opacity:1 !important;
+        transform:translateZ(0) scale(1) !important;
+        -webkit-transform:translateZ(0) scale(1) !important;
+      }
+    }
+  </style>
+
+
+  <style id="dikesoft-app-desktop-firstpaint-critical">
+    html,
+    body {
+      margin:0;
+      min-height:100%;
+      padding:0;
+      background:
+        radial-gradient(circle at top left,rgba(166,240,75,.22),transparent 30%),
+        linear-gradient(135deg,#fbfff7,#f3faee 52%,#ecffd8);
+      background-color:#fbfff7;
+      color:#172416;
+    }
+
+    body.app-page {
+      overflow-x:hidden;
+      background:
+        radial-gradient(circle at top left,rgba(166,240,75,.22),transparent 30%),
+        linear-gradient(135deg,#fbfff7,#f3faee 52%,#ecffd8);
+      background-color:#fbfff7;
+    }
+
+    @media (min-width:769px) and (hover:hover) and (pointer:fine) {
+      .app-startup-splash {
+        display:none !important;
+        visibility:hidden !important;
+        opacity:0 !important;
+        pointer-events:none !important;
+      }
+    }
+  </style>
+
+
+  <!-- PWA Icons -->
+  <link rel="stylesheet" href="css/base.css?v=2026.05.18.1114-tablet-orientation-layout" />
+  <link rel="stylesheet" href="css/components.css?v=2026.08.21-report-label-gap-v3" />
+  <link rel="stylesheet" href="css/desktop.css?v=2026.06.02-desktop-mac-scroll" />
+  <link rel="stylesheet" href="css/iphone.css?v=2026.05.18.1114-tablet-orientation-layout" />
+  <link rel="stylesheet" href="css/android.css?v=2026.05.18.1114-tablet-orientation-layout" />
+  <link rel="stylesheet" href="css/tablet.css?v=2026.05.21.9-tablet-sendlogs-date-compact" />
+  <link rel="stylesheet" href="css/print-pdf.css?v=2026.05.18.1114-tablet-orientation-layout" />
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"></script>
+  <script type="module" src="js/main.js?v=2026.08.21-report-multi-month-v1"></script>
+
+  <link rel="manifest" href="manifest.json?v=2026.05.18.1114-tablet-orientation-layout">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2026.05.18.1114-tablet-orientation-layout">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=2026.05.18.1114-tablet-orientation-layout">
+  <meta name="apple-mobile-web-app-title" content="Dikesoft">
+  <meta name="application-name" content="Dikesoft">
+</head>
+<body class="app-page">
+<div id="appStartupSplash" class="app-startup-splash" aria-hidden="true" data-mode="image">
+  <picture class="dikesoft-splash-picture" aria-hidden="true">
+    <source media="(orientation: landscape)" srcset="assets/splash/splash-landscape.png?v=2026.05.18.1114-tablet-orientation-layout" />
+    <img class="dikesoft-splash-image-element" src="assets/splash/splash-portrait.png?v=2026.05.18.1114-tablet-orientation-layout" alt="" aria-hidden="true" decoding="async" fetchpriority="high" onload="this.classList.add('is-loaded');document.documentElement.classList.add('dikesoft-splash-ready');if(document.body){document.body.classList.add('dikesoft-splash-ready');}" />
+  </picture>
+</div>
+<div id="appShell" class="app-shell">
+    <aside class="sidebar">
+      <button id="sidebarToggleBtn" class="sidebar-toggle sidebar-toggle-in" type="button" aria-label="Menüyü aç/kapat">☰</button>
+      <div class="brand">
+        <div class="brand-logo brand-app-logo" aria-hidden="true"><img src="assets/icon-512.png?v=2026.05.18.1114-tablet-orientation-layout" alt="" /></div>
+        <div><strong>Dikesoft</strong><span>Hesap Özeti ve Rapor Paneli</span></div>
+      </div>
+      <nav class="side-nav">
+        <button class="nav-btn is-active" data-page="dashboard"><span class="nav-icon" aria-hidden="true">⌂</span><span class="nav-label">Ana Sayfa</span></button>
+        <button class="nav-btn" data-page="import"><span class="nav-icon" aria-hidden="true">⇪</span><span class="nav-label">Dosya İçe Aktar</span></button>
+        <button class="nav-btn" data-page="data"><span class="nav-icon" aria-hidden="true">▦</span><span class="nav-label">Veriler</span></button>
+        <button class="nav-btn" data-page="definitions"><span class="nav-icon" aria-hidden="true">☷</span><span class="nav-label">Tanımlar</span></button>
+        <button class="nav-btn" data-page="customerAnalytics"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label">Müşteri Yönetimi</span></button>
+        <button class="nav-btn" data-page="bayiManagement"><span class="nav-icon" aria-hidden="true">◍</span><span class="nav-label">Bayi Yönetimi</span></button>
+        <button class="nav-btn" data-page="reports"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label">Raporlar</span></button>
+        <button class="nav-btn" data-page="sendLogs"><span class="nav-icon" aria-hidden="true">✉</span><span class="nav-label">Gönderimler</span></button>
+        <button class="nav-btn" data-page="settings"><span class="nav-icon" aria-hidden="true">⚙</span><span class="nav-label">Ayarlar</span></button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1 id="pageTitle"><span id="pageTitleIcon" class="page-title-icon" aria-hidden="true">⌂</span><span id="pageTitleText">Ana Sayfa</span></h1>
+          <p id="pageSubtitle">Excel verisini içe aktar, hesapla, raporları gönder.</p>
+        </div>
+        <div class="topbar-actions">
+          <span id="authStatus" class="status-pill">Oturum açık</span>
+
+          <button id="logoutBtn" type="button" data-action="logout" class="btn btn-soft desktop-logout-btn">Çıkış</button>
+
+          <div class="mobile-more-wrap">
+            <button id="mobileMoreBtn" class="mobile-more-btn" type="button" aria-label="Diğer menü" aria-expanded="false">☰</button>
+          </div>
+        </div>
+      </header>
+
+      <section id="dashboard" class="page is-visible">
+        <div class="grid cards-5">
+          <article class="stat-card"><span>Toplam Fatura</span><strong id="statTotalInvoice">0,00 TL</strong></article>
+          <article class="stat-card"><span>Bayi Sayısı</span><strong id="statDealerCount">0</strong></article>
+          <article class="stat-card"><span>Fatura Adedi</span><strong id="statInvoiceCount">0</strong></article>
+          <article class="stat-card"><span>Gönderime Hazır</span><strong id="statReadyReports">0</strong></article>
+          <article class="stat-card warning"><span>Eksik / Hatalı</span><strong id="statIssues">0</strong></article>
+        </div>
+      </section>
+
+      <section id="import" class="page">
+        <div class="panel">
+          <h2>Dosya İçe Aktar</h2>
+          <p class="muted">Desteklenen formatlar: .xlsx, .xls, .csv. Seçilen tahsilat yılı/ayı dışındaki satırlar içe alınmaz.</p>
+          <div class="upload-box import-workflow">
+            <label class="compact-field">Tahsilat Yılı
+              <input id="importYearInput" type="number" min="2020" max="2100" placeholder="2026" />
+            </label>
+            <label class="compact-field">Tahsilat Ayı
+              <select id="importMonthInput">
+                <option value="" selected>Seçiniz</option>
+                <option value="1">Ocak</option>
+                <option value="2">Şubat</option>
+                <option value="3">Mart</option>
+                <option value="4">Nisan</option>
+                <option value="5">Mayıs</option>
+                <option value="6">Haziran</option>
+                <option value="7">Temmuz</option>
+                <option value="8">Ağustos</option>
+                <option value="9">Eylül</option>
+                <option value="10">Ekim</option>
+                <option value="11">Kasım</option>
+                <option value="12">Aralık</option>
+              </select>
+            </label>
+            <input id="paymentFileInput" type="file" accept=".xlsx,.xls,.csv" />
+            <button id="paymentImportBtn" class="btn btn-primary">Dosya İçe Aktar</button>
+          </div>
+          <div id="importResult" class="result-box hidden"></div>
+        </div>
+        <div class="panel">
+          <h2>Ön Kontrol</h2>
+          <div id="validationList" class="validation-list">Henüz dosya yüklenmedi.</div>
+        </div>
+        <div class="panel data-table-panel import-preview-panel">
+          <div class="import-preview-head">
+            <div>
+              <h2>İçe Aktarılan Veri Önizlemesi</h2>
+              <p id="importPreviewInfo" class="muted">Dosya içe aktarılınca kayıtlar burada ön kontrole alınır. Kaydedilmeden Veri Yönetimi ve Raporlar alanına aktarılmaz.</p>
+              <div id="importTahsilatRangeInfo" class="import-tahsilat-range hidden" aria-live="polite"></div>
+            </div>
+            <div class="table-action-bar import-table-action-bar">
+              <label class="data-select-all-toggle" title="Tümünü seç">
+                <input id="selectAllImportRowsBtn" type="checkbox" aria-label="İçe aktarılan verilerin tümünü seç" />
+              </label>
+              <button id="filterImportIssuesBtn" class="btn btn-soft" type="button" title="Ön Kontrol sütununda sorunlu görünen satırları filtreler">Sorunlu</button>
+              <button id="editSelectedImportRowBtn" class="btn btn-soft" title="Yalnızca ön izleme satırını düzenler; SQL kaydı Kaydet butonuyla yapılır">Düzenle</button>
+              <button id="deleteSelectedImportRowsBtn" class="btn btn-danger">Sil</button>
+              <button id="saveImportedRowsBtn" class="btn btn-primary">Kaydet</button>
+            </div>
+          </div>
+          <div id="importPreviewTable" class="data-editor">Henüz içe aktarılan veri yok.</div>
+          <div id="importSaveProgress" class="import-save-progress hidden" role="status" aria-live="polite" aria-hidden="true">
+            <div class="import-save-progress-head">
+              <span id="importSaveProgressText">SQL veritabanına kaydediliyor…</span>
+              <strong id="importSaveProgressPercent">0%</strong>
+            </div>
+            <div class="import-save-progress-track" aria-hidden="true">
+              <span id="importSaveProgressFill" class="import-save-progress-fill"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="data" class="page">
+        <div class="panel sticky-actions">
+          <div>
+            <h2>Veri Yönetimi</h2>
+            <p id="dataPeriodInfo" class="muted">Yıl/ay seçerek tahsilat dönemine ait verileri getir, düzenle veya sil.</p>
+          </div>
+          <div class="bulk-actions">
+            <label class="compact-field">Tahsilat Yılı
+              <input id="dataYearInput" type="number" min="2020" max="2100" placeholder="2026" />
+            </label>
+            <label class="compact-field">Tahsilat Ayı
+              <select id="dataMonthInput">
+                <option value="1">Ocak</option>
+                <option value="2">Şubat</option>
+                <option value="3">Mart</option>
+                <option value="4">Nisan</option>
+                <option value="5">Mayıs</option>
+                <option value="6">Haziran</option>
+                <option value="7">Temmuz</option>
+                <option value="8">Ağustos</option>
+                <option value="9">Eylül</option>
+                <option value="10">Ekim</option>
+                <option value="11">Kasım</option>
+                <option value="12">Aralık</option>
+              </select>
+            </label>
+            <button id="loadDataPeriodBtn" class="btn btn-primary">Veri Getir</button>
+          </div>
+        </div>
+        <div class="panel data-table-panel">
+          <div class="data-column-searchbar data-column-single-searchbar" role="search" aria-label="Veri yönetimi alan seçmeli arama">
+            <label class="data-column-search-field data-column-search-select">
+              <span>Arama Alanı</span>
+              <select id="dataFilterFieldSelect" aria-label="Arama yapılacak alanı seç">
+                <option value="unvan">UNVAN</option>
+                <option value="dagitici">DAGITICI</option>
+                <option value="bayi">BAYI</option>
+              </select>
+            </label>
+            <label class="data-column-search-field data-column-search-query">
+              <span>Arama</span>
+              <span class="data-column-search-control">
+                <input id="dataFilterQueryInput" type="search" autocomplete="off" inputmode="search" placeholder="Seçili alanda ara" aria-label="Seçili veri yönetimi alanında ara" />
+                <button id="clearDataFilterQueryBtn" class="data-column-search-clear" type="button" aria-label="Aramayı temizle" title="Aramayı temizle" hidden>×</button>
+              </span>
+            </label>
+            <span id="dataFilterResultCount" class="search-result-count data-search-count" aria-live="polite">0 kayıt</span>
+          </div>
+          <div class="table-action-bar data-table-action-bar">
+            <label class="data-select-all-toggle" title="Tümünü seç">
+              <input id="selectAllRowsBtn" type="checkbox" aria-label="Tümünü seç" />
+            </label>
+            <button id="editSelectedRowBtn" class="btn btn-soft">Düzenle</button>
+            <button id="deleteSelectedRowsBtn" class="btn btn-danger">Sil</button>
+            <button id="exportSelectedRowsBtn" class="btn btn-primary">Dışa Aktar</button>
+          </div>
+          <div id="dataTable" class="data-editor">Henüz veri yüklenmedi.</div>
+          <div id="dataDeleteProgress" class="data-delete-progress hidden" role="status" aria-live="polite" aria-hidden="true">
+            <div class="data-delete-progress-head">
+              <span id="dataDeleteProgressText">Veriler siliniyor…</span>
+              <strong id="dataDeleteProgressPercent">0%</strong>
+            </div>
+            <div class="data-delete-progress-track" aria-hidden="true">
+              <span id="dataDeleteProgressFill" class="data-delete-progress-fill"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="definitions" class="page">
+        <div class="definition-toolbar">
+          <button class="btn btn-primary definition-toolbar-btn definition-view-btn" type="button" data-definition-view="channels" title="Kanal Tanımla" aria-label="Kanal Tanımla">
+            <span class="definition-toolbar-icon" aria-hidden="true">☷</span>
+            <span class="definition-toolbar-label desktop-label">Kanal Tanımla</span>
+            <span class="definition-toolbar-label mobile-label">Kanal</span>
+          </button>
+          <button class="btn btn-primary definition-toolbar-btn definition-view-btn" type="button" data-definition-view="dealers" title="Bayi Tanımla" aria-label="Bayi Tanımla">
+            <span class="definition-toolbar-icon" aria-hidden="true">▦</span>
+            <span class="definition-toolbar-label desktop-label">Bayi Tanımla</span>
+            <span class="definition-toolbar-label mobile-label">Bayi</span>
+          </button>
+          <button class="btn btn-primary definition-toolbar-btn definition-view-btn" type="button" data-definition-view="mails" title="Mail Tanımla" aria-label="Mail Tanımla">
+            <span class="definition-toolbar-icon" aria-hidden="true">✉</span>
+            <span class="definition-toolbar-label desktop-label">Mail Tanımla</span>
+            <span class="definition-toolbar-label mobile-label">Mail</span>
+          </button>
+          <button id="importDefinitionsBtn" class="btn btn-soft definition-toolbar-btn definition-action-btn" title="Tanımları İçe Aktar" aria-label="Tanımları İçe Aktar">
+            <span class="definition-toolbar-icon" aria-hidden="true">⇣</span>
+            <span class="definition-toolbar-label desktop-label">Tanımları İçe Aktar</span>
+            <span class="definition-toolbar-label mobile-label">İçe</span>
+          </button>
+          <button id="exportDefinitionsBtn" class="btn btn-soft definition-toolbar-btn definition-action-btn" title="Tanımları Dışa Aktar" aria-label="Tanımları Dışa Aktar">
+            <span class="definition-toolbar-icon" aria-hidden="true">⇡</span>
+            <span class="definition-toolbar-label desktop-label">Tanımları Dışa Aktar</span>
+            <span class="definition-toolbar-label mobile-label">Dışa</span>
+          </button>
+          <button id="downloadTemplateBtn" class="btn btn-soft definition-toolbar-btn definition-action-btn" type="button" title="Şablon İndir" aria-label="Şablon İndir">
+            <span class="definition-toolbar-icon" aria-hidden="true">▤</span>
+            <span class="definition-toolbar-label desktop-label">Şablon İndir</span>
+            <span class="definition-toolbar-label mobile-label">Şablon</span>
+          </button>
+          <input id="definitionsFileInput" class="hidden" type="file" accept=".xlsx,.xls,.csv" />
+        </div>
+        <div id="definitionSaveProgress" class="definition-save-progress hidden" role="status" aria-live="polite" aria-hidden="true">
+          <div class="definition-save-progress-head">
+            <span id="definitionSaveProgressText">Kaydediliyor…</span>
+            <strong id="definitionSaveProgressPercent">0%</strong>
+          </div>
+          <div class="definition-save-progress-track" aria-hidden="true">
+            <span id="definitionSaveProgressFill" class="definition-save-progress-fill"></span>
+          </div>
+        </div>
+        <div class="grid two-cols">
+          <div class="panel definition-card" data-definition-panel="channels">
+          <h2>Kanallar</h2>
+          <div id="channelsTable" data-definition-table="channels" class="data-table"></div></div>
+          <div class="panel definition-card" data-definition-panel="dealers">
+          <h2>Bayiler</h2>
+          <div id="dealersTable" data-definition-table="dealers" class="data-table"></div></div>
+        </div>
+        <div class="panel definition-card" data-definition-panel="mails">
+          <h2>Mailler</h2>
+          <div id="mailsTable" data-definition-table="mails" class="data-table"></div></div>
+      </section>
+
+      
+
+      <section id="customerAnalytics" class="page">
+        <div class="panel sticky-actions customer-analytics-head">
+          <div>
+            <h2>Müşteri Yönetimi</h2>
+            <p class="muted">SQL’deki tüm kayıtları açılışta getirir; Excel benzeri kolon arama, tarih aralığı ve büyükten/küçüğe sıralama ile listeler.</p>
+          </div>
+        </div>
+
+        <div id="customerAnalyticsStatus" class="customer-analytics-status hidden" role="status" aria-live="polite"></div>
+
+        <div class="panel customer-table-panel customer-all-panel">
+          <div class="customer-table-title-row">
+            <div>
+              <h3>Tüm SQL Kayıtları</h3>
+              <p class="muted">Üst aramada sütun seçebilir veya Tümü ile bütün sütunlarda arayabilirsiniz. Yıl ve ay filtreleri kayıtlı tarihlerden checkbox olarak gelir; başlıklardaki ikonlar ek kolon filtresi açar.</p>
+            </div>
+            <span id="customerAllCount" class="search-result-count">0 satır</span>
+          </div>
+          <div class="customer-all-toolbar">
+            <label class="compact-field customer-search-column-field">Arama Sütunu
+              <select id="customerAllSearchField" aria-label="Arama yapılacak sütun">
+                <option value="__all">Tümü</option>
+              </select>
+            </label>
+            <label class="compact-field customer-search-query-field">Arama
+              <div class="customer-search-line">
+                <input id="customerAllSearchInput" type="search" placeholder="Seçilen sütunda ara..." autocomplete="off" />
+                <button id="customerAllSearchBtn" class="btn btn-primary" type="button">Ara</button>
+              </div>
+            </label>
+            <div class="compact-field customer-period-field">
+              <span>Yıl</span>
+              <div id="customerAllYearDropdown" class="customer-filter-dropdown">
+                <button class="customer-filter-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="customer-filter-dropdown-text">Tüm yıllar</span>
+                  <span class="customer-filter-dropdown-icon" aria-hidden="true">▾</span>
+                </button>
+                <div class="customer-filter-menu" role="group" aria-label="Müşteri Yönetimi yıl seçimi"></div>
+              </div>
+            </div>
+            <div class="compact-field customer-period-field">
+              <span>Ay</span>
+              <div id="customerAllMonthDropdown" class="customer-filter-dropdown">
+                <button class="customer-filter-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="customer-filter-dropdown-text">Tüm aylar</span>
+                  <span class="customer-filter-dropdown-icon" aria-hidden="true">▾</span>
+                </button>
+                <div class="customer-filter-menu" role="group" aria-label="Müşteri Yönetimi ay seçimi"></div>
+              </div>
+            </div>
+            <div class="customer-all-toolbar-actions">
+              <button id="customerAllResetBtn" class="btn btn-soft" type="button">Filtreleri Temizle</button>
+              <button id="customerAllRefreshBtn" class="btn btn-soft" type="button">SQL’den Yenile</button>
+            </div>
+          </div>
+          <div id="customerAllTable" class="customer-data-grid customer-all-data-grid">Müşteri Yönetimi açılınca SQL verileri yüklenecek.</div>
+          <div id="customerFilteredSummary" class="customer-filtered-summary hidden" aria-live="polite"></div>
+        </div>
+
+      </section>
+
+
+      <section id="bayiManagement" class="page">
+        <div class="panel sticky-actions customer-analytics-head bayi-management-head">
+          <div>
+            <h2>Bayi Yönetimi</h2>
+            <p class="muted">Kayıtlı tahsilat verilerini kanal, yıl ve ay filtresine göre bayi pay oranlarıyla dönem bazlı analiz eder.</p>
+          </div>
+        </div>
+
+        <div id="bayiManagementStatus" class="customer-analytics-status hidden" role="status" aria-live="polite"></div>
+        <div id="bayiManagementProgress" class="bayi-management-progress hidden" aria-hidden="true">
+          <div class="bayi-management-progress-head">
+            <span id="bayiManagementProgressText">Veriler alınıyor…</span>
+            <span id="bayiManagementProgressTime">00:00</span>
+          </div>
+          <div class="bayi-management-progress-track">
+            <div id="bayiManagementProgressBar" class="bayi-management-progress-bar"></div>
+          </div>
+        </div>
+
+        <div class="panel bayi-management-controls">
+          <div class="customer-control-grid bayi-management-filter-grid">
+            <div class="compact-field bayi-management-field">
+              <span>Kanal / Dağıtıcı</span>
+              <div id="bayiManagementChannelDropdown" class="bayi-management-dropdown">
+                <button class="bayi-management-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="bayi-management-toggle-text">Tüm kanallar</span>
+                  <span class="bayi-management-toggle-icon" aria-hidden="true">▾</span>
+                </button>
+                <div class="bayi-management-menu" role="group" aria-label="Bayi Yönetimi kanal seçimi"></div>
+              </div>
+            </div>
+
+            <div class="compact-field bayi-management-field">
+              <span>Yıl</span>
+              <div id="bayiManagementYearDropdown" class="bayi-management-dropdown">
+                <button class="bayi-management-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="bayi-management-toggle-text">Tüm yıllar</span>
+                  <span class="bayi-management-toggle-icon" aria-hidden="true">▾</span>
+                </button>
+                <div class="bayi-management-menu" role="group" aria-label="Bayi Yönetimi yıl seçimi"></div>
+              </div>
+            </div>
+
+            <div class="compact-field bayi-management-field">
+              <span>Ay</span>
+              <div id="bayiManagementMonthDropdown" class="bayi-management-dropdown">
+                <button class="bayi-management-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="bayi-management-toggle-text">Tüm aylar</span>
+                  <span class="bayi-management-toggle-icon" aria-hidden="true">▾</span>
+                </button>
+                <div class="bayi-management-menu" role="group" aria-label="Bayi Yönetimi ay seçimi"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bulk-actions customer-analytics-actions bayi-management-actions">
+            <button id="bayiManagementLoadBtn" class="btn btn-primary" type="button">Göster</button>
+            <button id="bayiManagementPreviewBtn" class="btn btn-soft" type="button">PDF Önizle</button>
+            <button id="bayiManagementClearBtn" class="btn btn-soft" type="button">Filtreyi Temizle</button>
+          </div>
+          <p class="muted customer-analysis-hint">Bayi Yönetimi açılınca önce cache/veri sürümü kontrol edilir. Cache boşsa veya veri değişmişse SQL’den otomatik alınır; filtreler hazırlandıktan sonra Göster ile rapor oluşturulur.</p>
+        </div>
+
+        <div id="bayiManagementStats" class="grid customer-stats-grid bayi-management-stats"></div>
+
+        <div class="panel customer-table-panel bayi-management-table-panel">
+          <div class="customer-table-title-row">
+            <div>
+              <h3>Genişletilmiş Bayi Pay Raporu</h3>
+              <p class="muted">Genel rapor alanının yıl-ay bazlı genişletilmiş görünümüdür.</p>
+            </div>
+            <span id="bayiManagementCount" class="search-result-count">0 kayıt</span>
+          </div>
+          <div id="bayiManagementTable" class="customer-data-grid bayi-management-data-grid">Henüz gösterim yapılmadı.</div>
+        </div>
+
+        <div class="panel bayi-management-chart-panel">
+          <div class="customer-table-title-row">
+            <div>
+              <h3>Görsel Raporlar</h3>
+              <p class="muted">Seçili filtreye göre kanal, dönem ve bayi payı istatistikleri.</p>
+            </div>
+          </div>
+          <div id="bayiManagementCharts" class="bayi-management-charts">
+            <div class="customer-empty">Görsel rapor için önce filtre seçip Göster butonuna basın.</div>
+          </div>
+        </div>
+      </section>
+
+
+      
+<section id="reports" class="page">
+  <div class="panel sticky-actions">
+    <div>
+      <h2>Raporlar</h2>
+      <p class="muted">TAHSILAT_TARIHI bazlı raporlama yapılır.</p>
+    </div>
+
+    <div class="bulk-actions report-period-actions">
+      <div class="compact-field report-distributor-field">
+        <span>Kanal / Dağıtıcı</span>
+        <div id="reportDistributorInput" class="report-distributor-dropdown" data-report-distributor-dropdown>
+          <button id="reportDistributorToggle" class="report-distributor-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+            <span class="report-distributor-toggle-text">Tümü</span>
+            <span class="report-distributor-toggle-icon" aria-hidden="true">▾</span>
+          </button>
+          <div class="report-distributor-menu" data-report-distributor-menu role="group" aria-label="Kanal / Dağıtıcı seçimi">
+            <label class="report-distributor-option report-distributor-option-all">
+              <input type="checkbox" value="" data-report-distributor-all checked />
+              <span>Tümü</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <label class="compact-field">Tahsilat Yılı
+        <input id="reportYearInput" type="number" min="2020" max="2100" placeholder="2026" />
+      </label>
+
+      <div class="compact-field report-month-field">
+        <span>Tahsilat Ayları</span>
+        <div id="reportMonthDropdown" class="report-month-dropdown" data-report-month-dropdown>
+          <button id="reportMonthToggle" class="report-month-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+            <span class="report-month-toggle-text">-</span>
+            <span class="report-month-toggle-icon" aria-hidden="true">▾</span>
+          </button>
+          <div class="report-month-menu" data-report-month-menu role="group" aria-label="Tahsilat ayı seçimi">
+            <label class="report-month-option report-month-option-all">
+              <input type="checkbox" value="" data-report-month-all />
+              <span>Tümü</span>
+            </label>
+            <label class="report-month-option"><input type="checkbox" value="1" data-report-month /><span>Ocak</span></label>
+            <label class="report-month-option"><input type="checkbox" value="2" data-report-month /><span>Şubat</span></label>
+            <label class="report-month-option"><input type="checkbox" value="3" data-report-month /><span>Mart</span></label>
+            <label class="report-month-option"><input type="checkbox" value="4" data-report-month /><span>Nisan</span></label>
+            <label class="report-month-option"><input type="checkbox" value="5" data-report-month /><span>Mayıs</span></label>
+            <label class="report-month-option"><input type="checkbox" value="6" data-report-month /><span>Haziran</span></label>
+            <label class="report-month-option"><input type="checkbox" value="7" data-report-month /><span>Temmuz</span></label>
+            <label class="report-month-option"><input type="checkbox" value="8" data-report-month /><span>Ağustos</span></label>
+            <label class="report-month-option"><input type="checkbox" value="9" data-report-month /><span>Eylül</span></label>
+            <label class="report-month-option"><input type="checkbox" value="10" data-report-month /><span>Ekim</span></label>
+            <label class="report-month-option"><input type="checkbox" value="11" data-report-month /><span>Kasım</span></label>
+            <label class="report-month-option"><input type="checkbox" value="12" data-report-month /><span>Aralık</span></label>
+          </div>
+        </div>
+      </div>
+
+      <button id="loadPeriodReportsBtn" class="btn btn-primary" type="button">
+        Raporla
+      </button>
+    </div>
+
+  </div>
+
+  <div id="reportDefinitionWarning" class="report-definition-warning hidden" role="alert" aria-live="polite"></div>
+
+  <div class="panel report-view-toolbar">
+    <button id="reportViewGeneralBtn" class="btn btn-primary" type="button">
+      Genel Rapor
+    </button>
+
+    <button id="reportViewDealerBtn" class="btn btn-soft" type="button">
+      Bayi Bazlı Raporlar
+    </button>
+  </div>
+
+  <div id="generalReportPanel" class="report-view-panel is-active-report-view">
+    <div id="generalReport" class="panel report-box">
+      Henüz hesaplama yapılmadı.
+    </div>
+  </div>
+
+  <div id="dealerReportPanel" class="report-view-panel">
+    <div class="panel dealer-report-panel">
+      <div class="sticky-actions">
+        <div>
+          <h2>Bayi Bazlı Raporlar</h2>
+          <p class="muted">Seçili dönem için bayi bazlı rapor listesi.</p>
+        </div>
+
+        <div class="bulk-actions dealer-report-bulk-actions">
+          <label class="report-select-all-control" title="Tümünü seç">
+            <input id="selectAllReportsCheckbox" type="checkbox" aria-label="Tümünü seç" />
+          </label>
+
+          <button id="downloadSelectedBtn" class="btn btn-soft" type="button">
+            İndir
+          </button>
+
+          <button id="sendSelectedBtn" class="btn btn-primary" type="button">
+            Gönder
+          </button>
+        </div>
+      </div>
+
+      <div class="dealer-report-search" role="search" aria-label="Bayi bazlı rapor arama">
+        <span class="dealer-report-search-control">
+          <input
+            id="dealerReportSearchInput"
+            type="search"
+            autocomplete="off"
+            inputmode="search"
+            placeholder="Bayi, kanal, mail veya durum ara"
+            aria-label="Bayi bazlı raporlarda ara"
+          />
+          <button
+            id="clearDealerReportSearchBtn"
+            class="dealer-report-search-clear"
+            type="button"
+            aria-label="Aramayı temizle"
+            title="Aramayı temizle"
+            hidden
+          >×</button>
+        </span>
+        <span id="dealerReportSearchCount" class="search-result-count dealer-report-search-count" aria-live="polite">0 kayıt</span>
+      </div>
+
+      <div id="dealerReports" class="report-list">
+        Henüz rapor oluşturulmadı.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      <section id="sendLogs" class="page">
+        <div class="panel sticky-actions">
+          <div>
+            <h2>Gönderim Geçmişi</h2>
+            <p class="muted">Maliyeti düşürmek için geçmiş kayıtlar tarih aralığına göre çekilir.</p>
+          </div>
+          <div class="bulk-actions">
+            <label class="compact-field">Başlangıç
+              <input id="sendLogStartDate" type="date" />
+            </label>
+            <label class="compact-field">Bitiş
+              <input id="sendLogEndDate" type="date" />
+            </label>
+            <button id="loadSendLogsBtn" class="btn btn-primary" type="button">Geçmişi Getir</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="send-log-search" role="search" aria-label="Gönderim geçmişinde bayi adına göre ara">
+            <span class="send-log-search-control">
+              <input
+                id="sendLogSearchInput"
+                type="search"
+                autocomplete="off"
+                inputmode="search"
+                placeholder="Bayi adı ara"
+                aria-label="Gönderim geçmişinde bayi adı ara"
+              />
+              <button
+                id="clearSendLogSearchBtn"
+                class="send-log-search-clear"
+                type="button"
+                aria-label="Aramayı temizle"
+                title="Aramayı temizle"
+                hidden
+              >×</button>
+            </span>
+            <span id="sendLogSearchCount" class="search-result-count send-log-search-count" aria-live="polite">0 kayıt</span>
+          </div>
+          <div id="sendLogList" class="data-table">Tarih aralığı seçip Geçmişi Getir butonuna basın.</div>
+        </div>
+      </section>
+
+      <section id="settings" class="page">
+
+        <div class="panel">
+          <h2>Toplu Mail Ayarları</h2>
+          <p class="muted">Gönderilecek tüm bayi raporlarında kullanılacak ortak konu ve açıklama metni.</p>
+
+          <form id="globalMailSettingsForm" class="form-grid">
+            <label>Toplu Konu
+              <input id="globalMailSubject" name="globalMailSubject" placeholder="Hesap Özeti Raporu" />
+            </label>
+
+            <label class="wide">Açıklama Metni
+              <textarea id="globalMailBody" name="globalMailBody" rows="5" placeholder="Sayın yetkili, hesap özeti raporunuz ektedir."></textarea>
+            </label>
+
+            <div class="form-actions wide">
+              <button class="btn btn-primary" type="submit">Kaydet</button>
+            </div>
+          </form>
+        </div>
+
+
+      </section>
+    </main>
+  </div>
+
+
+
+
+  <dialog id="channelModal" class="modal">
+    <form class="modal-card definition-form" id="channelForm">
+      <div class="modal-header">
+        <div>
+          <h2>Kanal Tanımla</h2>
+          <p>Excel'deki DAGITICI alanına karşılık gelen kanal adını ve kanal payını girin.</p>
+        </div>
+        <button type="button" class="modal-close" data-close-modal="channelModal">×</button>
+      </div>
+
+      <div class="form-grid">
+        <label>DAGITICI / Kanal Adı
+          <input name="channelName" placeholder="Örn. Ana Dağıtıcı" required maxlength="120" />
+        </label>
+        <label>Kanal Payı Oranı
+          <input name="kpRate" placeholder="Örn. 50" inputmode="decimal" required />
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-soft" data-close-modal="channelModal">Vazgeç</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+      </div>
+    </form>
+  </dialog>
+
+
+
+  <dialog id="dealerModal" class="modal">
+    <form class="modal-card definition-form" id="dealerForm">
+      <div class="modal-header">
+        <div>
+          <h2>Bayi Tanımla</h2>
+          <p>Excel'deki DAGITICI ve BAYI alanlarına uygun şekilde bayi payını tanımlayın.</p>
+        </div>
+        <button type="button" class="modal-close" data-close-modal="dealerModal">×</button>
+      </div>
+
+      <div class="form-grid">
+        <label>DAGITICI / Bağlı Kanal
+          <input name="channelName" placeholder="Örn. Ana Dağıtıcı" required maxlength="120" />
+        </label>
+        <label>BAYI / Bayi Adı
+          <input name="dealerName" placeholder="Örn. VA BİLİŞİM" required maxlength="160" />
+        </label>
+        <label>Bayi Payı Oranı
+          <input name="bpRate" placeholder="Örn. 30" inputmode="decimal" />
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-soft" data-close-modal="dealerModal">Vazgeç</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+      </div>
+    </form>
+  </dialog>
+
+
+
+  <dialog id="mailModal" class="modal">
+    <form class="modal-card definition-form" id="mailForm">
+      <div class="modal-header">
+        <div>
+          <h2>Mail Tanımla</h2>
+          <p>Excel'deki BAYI alanına karşılık gelen bayi için alıcı mail adresini girin.</p>
+        </div>
+        <button type="button" class="modal-close" data-close-modal="mailModal">×</button>
+      </div>
+
+      <div class="form-grid">
+        <label>BAYI / Bayi Adı
+          <input name="dealerName" placeholder="Örn. VA BİLİŞİM" required maxlength="160" />
+        </label>
+        <label>EMAIL / Alıcı Mail
+          <input name="email" placeholder="muhasebe@firma.com" type="email" required maxlength="180" />
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-soft" data-close-modal="mailModal">Vazgeç</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+      </div>
+    </form>
+  </dialog>
+
+
+  <div id="mobileMoreMenu" class="mobile-more-menu hidden" aria-label="Mobil sayfa menüsü">
+    <button class="mobile-more-item nav-btn" type="button" data-page="dashboard"><span class="nav-icon" aria-hidden="true">⌂</span><span class="nav-label">Ana Sayfa</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="import"><span class="nav-icon" aria-hidden="true">⇪</span><span class="nav-label">İçe Aktar</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="data"><span class="nav-icon" aria-hidden="true">▦</span><span class="nav-label">Veriler</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="definitions"><span class="nav-icon" aria-hidden="true">☷</span><span class="nav-label">Tanımlar</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="customerAnalytics"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label">Müşteri Yönetimi</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="bayiManagement"><span class="nav-icon" aria-hidden="true">◍</span><span class="nav-label">Bayi Yönetimi</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="reports"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label">Raporlar</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="sendLogs"><span class="nav-icon" aria-hidden="true">✉</span><span class="nav-label">Gönderimler</span></button>
+    <button class="mobile-more-item nav-btn" type="button" data-page="settings"><span class="nav-icon" aria-hidden="true">⚙</span><span class="nav-label">Ayarlar</span></button>
+    <button class="mobile-more-item logout-btn" type="button" data-action="logout"><span class="nav-icon" aria-hidden="true">↪</span><span class="nav-label">Çıkış</span></button>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script id="iphone-app-native-lock">
+    (function () {
+      var ua = navigator.userAgent || "";
+      var isIphone = /iPhone|iPod/i.test(ua);
+      if (!isIphone) return;
+
+      var root = document.documentElement;
+      var updateHeight = function () {
+        root.style.setProperty("--app-height", "100dvh");
+      };
+      updateHeight();
+      window.addEventListener("resize", updateHeight, { passive:true });
+      window.addEventListener("orientationchange", function () { setTimeout(updateHeight, 250); }, { passive:true });
+
+      ["gesturestart", "gesturechange", "gestureend"].forEach(function (name) {
+        document.addEventListener(name, function (event) { event.preventDefault(); }, { passive:false });
+      });
+
+      document.addEventListener("touchmove", function (event) {
+        if (event.touches && event.touches.length > 1) event.preventDefault();
+      }, { passive:false });
+
+      var lastTap = 0;
+      document.addEventListener("touchend", function (event) {
+        var now = Date.now();
+        if (now - lastTap < 320) event.preventDefault();
+        lastTap = now;
+      }, { passive:false });
+    })();
+  </script>
+
+</body>
+</html>

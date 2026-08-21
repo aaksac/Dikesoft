@@ -1,0 +1,4 @@
+@media print{
+  .sidebar,.topbar,.mobile-tabbar,.bulk-actions,.btn{display:none!important}
+  .app-shell{display:block}.main{padding:0}.panel{box-shadow:none;border:0}
+}

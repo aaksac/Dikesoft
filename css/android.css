@@ -1,0 +1,89 @@
+/* Android kuralları sadece body.is-android sınıfı geldikten sonra çalışır.
+   Böylece iPhone/PWA safe-area ve alt menü düzeni Android dosyası tarafından ezilmez. */
+@media (max-width:767px){
+  body.is-android .app-shell{display:block}
+  body.is-android .sidebar{display:none}
+  body.is-android .main{padding:14px 12px 92px}
+  body.is-android .topbar{display:block}
+  body.is-android .cards-5{grid-template-columns:1fr 1fr}
+  body.is-android .two-cols{grid-template-columns:1fr}
+  body.is-android .sticky-actions{position:static;display:block}
+  body.is-android .report-card{grid-template-columns:32px 1fr}
+  body.is-android .report-actions{grid-column:1 / -1;justify-content:flex-start}
+  body.is-android .mobile-tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--border);z-index:20;padding:8px 6px calc(8px + var(--safe-bottom))}
+  body.is-android .mobile-tabbar button{border:0;background:transparent;font-weight:800;color:var(--primary);font-size:0}
+  body.is-android input,
+  body.is-android textarea,
+  body.is-android select{font-size:16px}
+
+  body.is-android{
+    width:100vw;
+    height:100dvh;
+    overflow:hidden;
+  }
+}
+
+/* v1.2.02 Android mobil: alt tabbar kaldırıldı, sağ üst menü tek gezinme noktası */
+@media (max-width:767px){
+  body.is-android #mobileTabbar,
+  body.is-android .mobile-tabbar{
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+
+  body.is-android .main{
+    padding-bottom:24px !important;
+  }
+}
+@media (max-width:767px){
+  body.is-android .main{height:100dvh !important;overflow-y:auto !important;overflow-x:hidden !important;-webkit-overflow-scrolling:touch !important;}
+}
+
+/* v1.2.39 Android/PWA scroll stabilizasyonu: gövde kilitli, yalnızca .main içeriden kayar. */
+@media (max-width:767px){
+  body.is-android.app-page{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+  }
+
+  body.is-android.app-page #appShell.app-shell{
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+  }
+
+  body.is-android.app-page .main{
+    height:100dvh !important;
+    min-height:0 !important;
+    max-height:100dvh !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    overscroll-behavior:none !important;
+    touch-action:pan-y !important;
+    scrollbar-width:none !important;
+    -ms-overflow-style:none !important;
+  }
+
+  body.is-android.app-page .main::-webkit-scrollbar{
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+  }
+
+  body.is-android.app-page #definitions .definition-table-wrap,
+  body.is-android.app-page #definitions .definition-mobile-scroll-wrap{
+    overflow:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior:contain !important;
+    touch-action:pan-x pan-y !important;
+  }
+}
